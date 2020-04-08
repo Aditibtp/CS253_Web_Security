@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8' />
+        <title>Parent html</title>
+    </head>
+    <body>
+        <h1> Hi i am parent window </h1>
+        <input name='val'>
+        <br/>
+        <iframe src='http://localhost:4001/child.html'></iframe>
+        <script>
+            const input = document.querySelector('input')
+            const iframe = document.querySelector('iframe')
+            input.addEventListener('input', ()=>{
+                iframe.src = `http://localhost:4001/child.html#${encodeURIComponent(input.value)}`
+            })
+        </script>
+    </body>
+</html>

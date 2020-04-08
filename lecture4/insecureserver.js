@@ -43,7 +43,12 @@ app.post('/login', (req, res) => {
     if(password === req.body.password){
         //send cookie to client
         const nextSessionId = randomBytes(16).toString('base64')
-        res.cookie('sessionId', nextSessionId)
+        res.cookie('sessionId', nextSessionId, {
+            // secure: true //cant do here because we are on localhost
+            httpOnly: true,
+            sameSite: 'lax',
+            maxAge: 30*24*60*60*1000 // 30days
+        })
         SESSIONS[nextSessionId] = username
         res.redirect('/')
     }else{
@@ -55,7 +60,10 @@ app.get('/logout', (req, res) => {
     //cleared by setting a date in the past for expiration time on the cookie
     const sessionId = req.cookies.sessionId
     delete SESSIONS[sessionId]
-    res.clearCookie('sessionId')
+    res.clearCookie('sessionId', {
+        httpOnly: true,
+        sameSite: 'lax'
+    })
     res.redirect('/')
 })
 
@@ -79,3 +87,9 @@ app.post('/transfer', (req, res) => {
 
 app.listen(4000)
 
+//problem here is forms are allowed to be submitted from one site to another
+// '/transfer' request comes from attacker.html. Now since the user is logged in 
+// it attaches the cookies for back account with the transfer request, which originated 
+// from attacker's page
+//Here even after setting sameSite to lax the sessionId cookie is sent because the site is same
+//which is localhost

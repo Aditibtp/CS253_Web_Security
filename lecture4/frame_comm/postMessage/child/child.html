@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8' />
+        <title>Child html</title>
+    </head>
+    <body>
+        <h1> Hi i am a frame in parent html </h1>
+        <div></div>
+        <script>
+            const div = document.querySelector('div')
+            window.addEventListener('message', event => {
+                if(event.origin !== 'http://localhost:4000') return
+                div.textContent = event.data
+            })
+
+        </script>
+    </body>
+</html>

