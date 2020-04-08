@@ -1,0 +1,28 @@
+{
+  "name": "cs253_web_security",
+  "version": "1.0.0",
+  "description": "some node js and html to demonstrate web security",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.1",
+    "nodemon": "^2.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aditibtp/CS253_Web_Security.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aditibtp/CS253_Web_Security/issues"
+  },
+  "homepage": "https://github.com/Aditibtp/CS253_Web_Security#readme"
+}
