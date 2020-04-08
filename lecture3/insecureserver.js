@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
     const username = SESSIONS[sessionId]
     //check if cookie is already set on the client
     if(username) {
-        res.send(`Hi ${username}. Your have ${BALANCES[username]}$$`)
+        res.send(`Hi ${username}. You have ${BALANCES[username]}$$`)
     }else{
         createReadStream('index.html').pipe(res)
     }
@@ -35,6 +35,7 @@ app.post('/login', (req, res) => {
         //send cookie to client
         const nextSessionId = randomBytes(16).toString('base64')
         res.cookie('sessionId', nextSessionId)
+        console.log('setting cookie')
         SESSIONS[nextSessionId] = username
         res.redirect('/')
     }else{
@@ -70,7 +71,7 @@ app.listen(4000)
 // On CS 106A site
 //document.cookie = 'awesome=this; Path=/class/cs106a'
 
-//On CS 253 site
+//On CS-253 site
 //const iframe = document.createElement('iframe')
 //iframe.src = 'https://web.stanford.edu/class/cs106a'
 //document.body.appendChild(iframe)
