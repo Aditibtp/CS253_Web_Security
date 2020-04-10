@@ -4,6 +4,10 @@ const {createReadStream} = require('fs')
 const bodyParser = require('body-parser')
 const {randomBytes} = require('crypto')
 
+/************** HTML ESCAPE ***************/
+const htmlEscape = require('html-escape')
+/************** HTML ESCAPE ***************/
+
 const COOKIE_SECERT = 'supersecret'
 
 const app = express()
@@ -17,9 +21,10 @@ const BALANCES = {alice: 500, bob: 100}
 const SESSIONS = {} //sessionId -> username to sessionId
 
 app.get('/', (req, res) => {
-    //const username = req.signedCookies.username
     const sessionId = req.cookies.sessionId
     const username = SESSIONS[sessionId]
+    //not using htmlEscape causes source param to get executed
+    const source = htmlEscape(req.query.source)
     //check if cookie is already set on the client
     if(username) {
         res.send(` Hi ${username}. Your have ${BALANCES[username]}$$
@@ -33,7 +38,20 @@ app.get('/', (req, res) => {
             `
         )
     }else{
-        createReadStream('index.html').pipe(res)
+        res.send(
+            `<h1>
+                ${source ? `Hi ${source} reader!` : ''} 
+                Login to your bank account:
+            </h1>
+            <form method='POST' action='/login'>
+                Username:
+                    <input name='username' />
+                Password:
+                    <input name='password' type='password' />
+                    <input type='submit' value='Login' />
+            </form>
+            `
+        )
     }
 })
 
@@ -87,9 +105,10 @@ app.post('/transfer', (req, res) => {
 
 app.listen(4000)
 
-//problem here is forms are allowed to be submitted from one site to another
-// '/transfer' request comes from attacker.html. Now since the user is logged in 
-// it attaches the cookies for bank account with the transfer request, which originated 
-// from attacker's page
-//Here even after setting sameSite to lax the sessionId cookie is sent because the site is same
-//which is localhost -- this would not happen when these sites have different domains
+//Here in the source query param if a <script> tag is given then it will 
+//get executed by the browser in the bank's window context. 
+//html-escape npm module fixes this issue -- by using this the <script> tag just ends up
+//rendering as it is instead of getting executed in the browser window. 
+//The left angle brackets get replaced by  less then html entiteis &lt; 
+//which neutralises the script.
+
