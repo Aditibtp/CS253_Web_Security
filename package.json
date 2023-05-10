@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "http-server": "^0.12.1",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.22"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
